@@ -1,11 +1,77 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "mongodb"
   url      = env("DATABASE_URL")
+}
+
+model User {
+  id          String       @id @default(auto()) @map("_id") @db.ObjectId
+  name        String
+  email       String       @unique
+  image       String?
+  password    String
+  favoriteIds String[]     @db.ObjectId
+  isAdmin     Boolean      @default(false)
+  restaurants Restaurant[]
+  reviews     Review[]
+}
+
+model Category {
+  id          String       @id @default(auto()) @map("_id") @db.ObjectId
+  name        String       @unique
+  restaurants Restaurant[]
+}
+
+model Restaurant {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  name       String
+  userId     String   @db.ObjectId
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  categoryId String   @db.ObjectId
+  category   Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  rating     Float?
+  address    Address?
+  opening    Opening?
+  reviews    Review[]
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+model Address {
+  id           String     @id @default(auto()) @map("_id") @db.ObjectId
+  zipCode      String
+  city         String
+  state        String
+  street       String
+  district     String
+  number       String
+  complement   String?
+  restaurantId String     @unique @db.ObjectId
+  restaurant   Restaurant @relation(fields: [restaurantId], references: [id], onDelete: Cascade)
+}
+
+model Opening {
+  id           String     @id @default(auto()) @map("_id") @db.ObjectId
+  sunday       String
+  monday       String
+  tuesday      String
+  wednesday    String
+  thursday     String
+  friday       String
+  saturday     String
+  restaurantId String     @unique @db.ObjectId
+  restaurant   Restaurant @relation(fields: [restaurantId], references: [id], onDelete: Cascade)
+}
+
+model Review {
+  id           String     @id @default(auto()) @map("_id") @db.ObjectId
+  description  String
+  rating       Float
+  userId       String     @db.ObjectId
+  user         User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  restaurantId String     @db.ObjectId
+  restaurant   Restaurant @relation(fields: [restaurantId], references: [id], onDelete: Cascade)
 }
