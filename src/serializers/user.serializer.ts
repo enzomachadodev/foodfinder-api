@@ -1,4 +1,4 @@
-import { TypeOf, boolean, z } from "zod";
+import { z } from "zod";
 
 export const userCreateRequestSerializer = z.object({
 	name: z.string(),
