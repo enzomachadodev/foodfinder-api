@@ -1,10 +1,10 @@
 import { z } from "zod";
 
-export const categoryRequestSerializer = z.object({
+export const categoryCreateRequestSerializer = z.object({
 	name: z.string(),
 });
 
-export type CategoryRequest = z.infer<typeof categoryRequestSerializer>;
+export type CategoryCreateRequest = z.infer<typeof categoryCreateRequestSerializer>;
 
 export const categoryResponseSerializer = z.object({
 	id: z.string(),

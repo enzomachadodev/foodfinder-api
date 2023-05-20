@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { ensureDataIsValidMiddleware } from "../middlewares/ensureDataIsValid.middleware";
-import { categoryRequestSerializer } from "../serializers/category.serializer";
+import { categoryCreateRequestSerializer } from "../serializers/category.serializer";
 import { ensureAuthMiddleware } from "../middlewares/ensureAuth.middleware";
 import { ensureIsAdminMiddleware } from "../middlewares/ensureIsAdmin.middleware";
 import { createCategoryController } from "../controllers/category/createCategory.controlle";
@@ -12,7 +12,7 @@ categoryRoutes.post(
 	"",
 	ensureAuthMiddleware,
 	ensureIsAdminMiddleware,
-	ensureDataIsValidMiddleware(categoryRequestSerializer),
+	ensureDataIsValidMiddleware(categoryCreateRequestSerializer),
 	createCategoryController
 );
 

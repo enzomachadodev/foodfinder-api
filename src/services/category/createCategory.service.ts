@@ -1,14 +1,14 @@
 import { AppError } from "../../errors/appError";
 import prisma from "../../prismadb";
 import {
-	CategoryRequest,
+	CategoryCreateRequest,
 	CategoryResponse,
 	categoryResponseSerializer,
 } from "../../serializers/category.serializer";
 
 export const createCategoryService = async ({
 	name,
-}: CategoryRequest): Promise<CategoryResponse> => {
+}: CategoryCreateRequest): Promise<CategoryResponse> => {
 	const foundCategory = await prisma.category.findUnique({
 		where: {
 			name: name,
