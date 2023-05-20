@@ -27,13 +27,14 @@ model Category {
 
 model Restaurant {
   id         String   @id @default(auto()) @map("_id") @db.ObjectId
-  name       String
+  name       String @unique
+  image      String
+  rating     Float?
   userId     String   @db.ObjectId
   user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   categoryId String   @db.ObjectId
   category   Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
-  rating     Float?
-  address    Address?
+  address    Address? 
   opening    Opening?
   reviews    Review[]
   createdAt  DateTime @default(now())
@@ -47,7 +48,7 @@ model Address {
   state        String
   street       String
   district     String
-  number       String
+  number       Int
   complement   String?
   restaurantId String     @unique @db.ObjectId
   restaurant   Restaurant @relation(fields: [restaurantId], references: [id], onDelete: Cascade)
