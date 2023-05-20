@@ -45,6 +45,60 @@ export const openingCreateRequestSerializer = z.object({
 		),
 });
 
+export const openingUpdateRequestSerializer = z
+	.object({
+		sunday: z
+			.string()
+			.regex(
+				/^([01]\d|2[0-3]):([0-5]\d) - ([01]\d|2[0-3]):([0-5]\d)$/,
+				"Formato inválido para o horário. Utilize o formato HH:mm - HH:mm."
+			)
+			.optional(),
+		monday: z
+			.string()
+			.regex(
+				/^([01]\d|2[0-3]):([0-5]\d) - ([01]\d|2[0-3]):([0-5]\d)$/,
+				"Formato inválido para o horário. Utilize o formato HH:mm - HH:mm."
+			)
+			.optional(),
+		tuesday: z
+			.string()
+			.regex(
+				/^([01]\d|2[0-3]):([0-5]\d) - ([01]\d|2[0-3]):([0-5]\d)$/,
+				"Formato inválido para o horário. Utilize o formato HH:mm - HH:mm."
+			)
+			.optional(),
+		wednesday: z
+			.string()
+			.regex(
+				/^([01]\d|2[0-3]):([0-5]\d) - ([01]\d|2[0-3]):([0-5]\d)$/,
+				"Formato inválido para o horário. Utilize o formato HH:mm - HH:mm."
+			)
+			.optional(),
+		thursday: z
+			.string()
+			.regex(
+				/^([01]\d|2[0-3]):([0-5]\d) - ([01]\d|2[0-3]):([0-5]\d)$/,
+				"Formato inválido para o horário. Utilize o formato HH:mm - HH:mm."
+			)
+			.optional(),
+		friday: z
+			.string()
+			.regex(
+				/^([01]\d|2[0-3]):([0-5]\d) - ([01]\d|2[0-3]):([0-5]\d)$/,
+				"Formato inválido para o horário. Utilize o formato HH:mm - HH:mm."
+			)
+			.optional(),
+		saturday: z
+			.string()
+			.regex(
+				/^([01]\d|2[0-3]):([0-5]\d) - ([01]\d|2[0-3]):([0-5]\d)$/,
+				"Formato inválido para o horário. Utilize o formato HH:mm - HH:mm."
+			)
+			.optional(),
+	})
+	.optional();
+
 export const openingResponseSerializer = z.object({
 	id: z.string(),
 	sunday: z.string(),
@@ -56,4 +110,4 @@ export const openingResponseSerializer = z.object({
 	saturday: z.string(),
 });
 
-export type openingResponse = z.infer<typeof openingResponseSerializer>;
+export type OpeningResponse = z.infer<typeof openingResponseSerializer>;
