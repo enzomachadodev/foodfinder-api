@@ -5,7 +5,7 @@ export const ensureIsAdminMiddleware = (req: Request, res: Response, next: NextF
 	const authUser = req.user;
 
 	if (!authUser.isAdmin) {
-		throw new AppError("Não possui autorização");
+		throw new AppError("Não possui permissão");
 	}
 
 	return next();

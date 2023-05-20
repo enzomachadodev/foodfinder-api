@@ -1,6 +1,14 @@
 import { z } from "zod";
-import { addressCreateRequestSerializer, addressResponseSerializer } from "./address.serializer";
-import { openingCreateRequestSerializer, openingResponseSerializer } from "./opening.serializer";
+import {
+	addressCreateRequestSerializer,
+	addressResponseSerializer,
+	addressUpdateRequestSerializer,
+} from "./address.serializer";
+import {
+	openingCreateRequestSerializer,
+	openingResponseSerializer,
+	openingUpdateRequestSerializer,
+} from "./opening.serializer";
 import { categoryResponseSerializer } from "./category.serializer";
 import { userResponseSerializer } from "./user.serializer";
 
@@ -14,7 +22,20 @@ export const restaurantCreateRequestSerializer = z.object({
 
 export type RestaurantCreateRequest = z.infer<typeof restaurantCreateRequestSerializer>;
 
-export const restaurantResponseSerializer = z.object({
+export const restaurantUpdateRequestSerializer = z.object({
+	name: z.string().optional(),
+	categoryId: z
+		.string()
+		.regex(/^[0-9a-fA-F]{24}$/, "Formato de Id inválido")
+		.optional(),
+	image: z.string().optional(),
+	address: addressUpdateRequestSerializer,
+	opening: openingUpdateRequestSerializer,
+});
+
+export type RestaurantUpdateRequest = z.infer<typeof restaurantUpdateRequestSerializer>;
+
+export const restaurantCompleteResponseSerializer = z.object({
 	id: z.string(),
 	name: z.string(),
 	rating: z.string().nullable(),
@@ -27,6 +48,19 @@ export const restaurantResponseSerializer = z.object({
 	category: categoryResponseSerializer,
 	address: addressResponseSerializer,
 	opening: openingResponseSerializer,
+});
+
+export type RestaurantCompleteResponse = z.infer<typeof restaurantCompleteResponseSerializer>;
+
+export const restaurantResponseSerializer = z.object({
+	id: z.string(),
+	name: z.string(),
+	rating: z.string().nullable(),
+	image: z.string(),
+	userId: z.string(),
+	categoryId: z.string(),
+	createdAt: z.date(),
+	updatedAt: z.date(),
 });
 
 export type RestaurantResponse = z.infer<typeof restaurantResponseSerializer>;

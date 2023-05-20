@@ -2,24 +2,14 @@ import { AppError } from "../../errors/appError";
 import prisma from "../../prismadb";
 import {
 	RestaurantCreateRequest,
-	RestaurantResponse,
-	restaurantResponseSerializer,
+	RestaurantCompleteResponse,
+	restaurantCompleteResponseSerializer,
 } from "../../serializers/restaurant.serializer";
 
 export const createRestaurantService = async (
 	userId: string,
 	{ name, image, categoryId, opening, address }: RestaurantCreateRequest
-): Promise<RestaurantResponse> => {
-	const foundCategory = await prisma.category.findUnique({
-		where: {
-			id: categoryId,
-		},
-	});
-
-	if (!foundCategory) {
-		throw new AppError("Essa categoria não existe");
-	}
-
+): Promise<RestaurantCompleteResponse> => {
 	const newRestaurant = await prisma.restaurant.create({
 		data: {
 			name,
@@ -53,7 +43,7 @@ export const createRestaurantService = async (
 		opening: newOpening,
 	};
 
-	const validatedData = restaurantResponseSerializer.parse(restaurantResponse);
+	const validatedData = restaurantCompleteResponseSerializer.parse(restaurantResponse);
 
 	return validatedData;
 };
