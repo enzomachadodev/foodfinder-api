@@ -18,6 +18,10 @@ app.use("/restaurant", restaurantRoutes);
 
 app.use(handleError);
 
+app.get("/", (req, res) => {
+	res.json({ message: "Server is up" });
+});
+
 app.listen(3333, () => {
 	console.log("Server is running on port 3333");
 });
