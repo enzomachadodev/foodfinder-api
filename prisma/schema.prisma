@@ -15,7 +15,6 @@ model User {
   password    String
   isAdmin     Boolean      @default(false)
   restaurants Restaurant[]
-  reviews     Review[]
 }
 
 model Category {
@@ -28,14 +27,12 @@ model Restaurant {
   id         String   @id @default(auto()) @map("_id") @db.ObjectId
   name       String @unique
   image      String
-  rating     Float?
   userId     String   @db.ObjectId
   user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   categoryId String   @db.ObjectId
   category   Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
   address    Address? 
   opening    Opening?
-  reviews    Review[]
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
 }
@@ -62,17 +59,5 @@ model Opening {
   friday       String
   saturday     String
   restaurantId String     @unique @db.ObjectId
-  restaurant   Restaurant @relation(fields: [restaurantId], references: [id], onDelete: Cascade)
-}
-
-model Review {
-  id           String     @id @default(auto()) @map("_id") @db.ObjectId
-  description  String
-  rating       Float
- createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
-  userId       String     @db.ObjectId
-  user         User       @relation(fields: [userId], references: [id], onDelete: Cascade)
-  restaurantId String     @db.ObjectId
   restaurant   Restaurant @relation(fields: [restaurantId], references: [id], onDelete: Cascade)
 }

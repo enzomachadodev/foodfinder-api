@@ -38,7 +38,6 @@ export type RestaurantUpdateRequest = z.infer<typeof restaurantUpdateRequestSeri
 export const restaurantCompleteResponseSerializer = z.object({
 	id: z.string(),
 	name: z.string(),
-	rating: z.string().nullable(),
 	image: z.string(),
 	userId: z.string(),
 	categoryId: z.string(),
@@ -55,7 +54,6 @@ export type RestaurantCompleteResponse = z.infer<typeof restaurantCompleteRespon
 export const restaurantResponseSerializer = z.object({
 	id: z.string(),
 	name: z.string(),
-	rating: z.string().nullable(),
 	image: z.string(),
 	userId: z.string(),
 	categoryId: z.string(),
