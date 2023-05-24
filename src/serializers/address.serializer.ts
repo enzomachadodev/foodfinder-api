@@ -15,7 +15,6 @@ export const addressUpdateRequestSerializer = z
 		city: z.string().optional(),
 		state: z.string().optional(),
 		street: z.string().optional(),
-		district: z.string().optional(),
 		number: z.number().int().optional(),
 		complement: z.string().optional(),
 	})
