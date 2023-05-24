@@ -1,0 +1,816 @@
+{
+	"openapi": "3.0.1",
+	"info": {
+		"title": "Restaurant CRUD",
+		"description": "API onde é possivel realizar um CRUD de Restaurantes",
+		"version": "1.0.0"
+	},
+	"basePath": "/",
+
+	"components": {
+		"schemas": {
+			"User": {
+				"type": "object",
+				"properties": {
+					"id": {
+						"type": "integer",
+						"format": "int64"
+					},
+					"name": {
+						"type": "string"
+					},
+					"email": {
+						"type": "string",
+						"format": "email"
+					},
+					"image": {
+						"type": "string",
+						"format": "url"
+					},
+					"isAdmin": {
+						"type": "boolean"
+					}
+				}
+			},
+			"Category": {
+				"type": "object",
+				"properties": {
+					"id": {
+						"type": "string"
+					},
+					"name": {
+						"type": "stirng"
+					}
+				}
+			},
+			"RestaurantComplete": {
+				"type": "object",
+				"properties": {
+					"id": {
+						"type": "string"
+					},
+					"name": {
+						"type": "string"
+					},
+					"image": {
+						"type": "string"
+					},
+					"userId": {
+						"type": "string"
+					},
+					"categoryId": {
+						"type": "string"
+					},
+					"user": {
+						"$ref": "#/components/schemas/User"
+					},
+					"category": {
+						"$ref": "#/components/schemas/Category"
+					},
+					"address": {
+						"type": "object",
+						"properties": {
+							"id": {
+								"type": "string"
+							},
+							"zipCode": {
+								"type": "string"
+							},
+							"city": {
+								"type": "string"
+							},
+							"state": {
+								"type": "string"
+							},
+							"street": {
+								"type": "string"
+							},
+							"number": {
+								"type": "integer"
+							},
+							"complement": {
+								"type": "string"
+							}
+						}
+					},
+					"opening": {
+						"type": "object",
+						"properties": {
+							"id": {
+								"type": "string"
+							},
+							"sunday": {
+								"type": "string"
+							},
+							"monday": {
+								"type": "string"
+							},
+							"tuesday": {
+								"type": "string"
+							},
+							"wednesday": {
+								"type": "string"
+							},
+							"thursday": {
+								"type": "integer"
+							},
+							"friday": {
+								"type": "string"
+							},
+							"saturday": {
+								"type": "string"
+							}
+						}
+					}
+				}
+			},
+			"Restaurant": {
+				"type": "object",
+				"properties": {
+					"id": {
+						"type": "string"
+					},
+					"name": {
+						"type": "string"
+					},
+					"image": {
+						"type": "string"
+					},
+					"userId": {
+						"type": "string"
+					},
+					"categoryId": {
+						"type": "string"
+					},
+					"user": {
+						"$ref": "#/components/schemas/User"
+					},
+					"category": {
+						"$ref": "#/components/schemas/Category"
+					}
+				}
+			},
+			"Error": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					},
+					"code": {
+						"type": "integer"
+					}
+				}
+			},
+			"securitySchemes": {
+				"bearerAuth": {
+					"type": "http",
+					"scheme": "bearer",
+					"bearerFormat": "JWT"
+				}
+			}
+		}
+	},
+	"paths": {
+		"/user": {
+			"post": {
+				"description": "Rota para realizer criação de um usuário.",
+				"sumary": "Cria um usuáio",
+				"tags": ["Users"],
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"type": "object",
+								"properties": {
+									"name": {
+										"type": "string"
+									},
+									"email": {
+										"type": "string"
+									},
+									"password": {
+										"type": "string"
+									},
+									"image": {
+										"type": "string"
+									}
+								},
+								"example": {
+									"name": "Exemplo",
+									"email": "exemplo@email.com",
+									"password": "1234",
+									"image": "https://i.stack.imgur.com/l60Hf.png"
+								}
+							}
+						}
+					}
+				},
+				"responses": {
+					"201": {
+						"description": "Usuário criado",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/User"
+								}
+							}
+						}
+					},
+					"409": {
+						"description": "Email já está sendo utilizado",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "Dados inválidos",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								}
+							}
+						}
+					}
+				}
+			},
+			"get": {
+				"description": "Rota para buscar dados do usuário autenticado",
+				"tags": ["Users"],
+				"security": [
+					{
+						"BearerAuth": []
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Resposta de sucesso",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/User"
+								}
+							}
+						}
+					},
+					"401": {
+						"description": "Token inválido",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/session": {
+			"post": {
+				"description": "Rota para fazer o login na aplicação.",
+				"tags": ["Session"],
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"type": "object",
+								"properties": {
+									"email": {
+										"type": "string",
+										"format": "email"
+									},
+									"password": {
+										"type": "string"
+									}
+								},
+								"example": {
+									"email": "exemplo@email.com",
+									"password": "1234"
+								}
+							}
+						}
+					}
+				},
+				"responses": {
+					"201": {
+						"description": "Sessão criada",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"properties": {
+										"token": {
+											"type": "string"
+										}
+									}
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "Dados inválidos",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/category": {
+			"post": {
+				"description": "Rota para adicionar novas categorias de restaurantes (apenas administradores).",
+				"tags": ["Categories"],
+				"security": [
+					{
+						"BearerAuth": [],
+						"isAdmin": []
+					}
+				],
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"type": "object",
+								"properties": {
+									"name": {
+										"type": "string"
+									}
+								},
+								"example": {
+									"name": "Sorveterias"
+								}
+							}
+						}
+					}
+				},
+				"responses": {
+					"201": {
+						"description": "Categoria criada",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Category"
+								}
+							}
+						}
+					},
+					"409": {
+						"description": "Já existe uma categoria com esse nome.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								}
+							}
+						}
+					},
+					"401": {
+						"description": "Sem permissão",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								}
+							}
+						}
+					}
+				}
+			},
+			"get": {
+				"description": "Rota para adicionar novas categorias de restaurantes.",
+				"tags": ["Categories"],
+
+				"responses": {
+					"200": {
+						"description": "Categoria criada",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "array",
+									"items": {
+										"$ref": "#/components/schemas/Category"
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/restaurant": {
+			"post": {
+				"description": "Rota para adicionar um novo restaurante.",
+				"tags": ["Restaurants"],
+				"security": [
+					{
+						"BearerAuth": []
+					}
+				],
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"type": "object",
+								"properties": {
+									"name": {
+										"type": "string"
+									},
+									"image": {
+										"type": "string"
+									},
+									"categoryId": {
+										"type": "string"
+									},
+									"address": {
+										"type": "object",
+										"properties": {
+											"zipCode": {
+												"type": "string"
+											},
+											"city": {
+												"type": "string"
+											},
+											"state": {
+												"type": "string"
+											},
+											"street": {
+												"type": "string"
+											},
+											"district": {
+												"type": "string"
+											},
+											"complement": {
+												"type": "string"
+											},
+											"number": {
+												"type": "integer"
+											}
+										}
+									},
+									"opening": {
+										"type": "object",
+										"properties": {
+											"sunday": {
+												"type": "string"
+											},
+											"monday": {
+												"type": "string"
+											},
+											"tuesday": {
+												"type": "string"
+											},
+											"wednesday": {
+												"type": "string"
+											},
+											"thursday": {
+												"type": "string"
+											},
+											"friday": {
+												"type": "string"
+											},
+											"saturday": {
+												"type": "string"
+											}
+										}
+									}
+								},
+								"example": {
+									"name": "Cold Food 2",
+									"image": "https://images.unsplash.com/photo-1637695282790-ddfb2d7c90b9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1074&q=80",
+									"categoryId": "646d58aaad73d1684dde6821",
+									"address": {
+										"zipCode": "1234546",
+										"city": "teste",
+										"state": "teste",
+										"street": "teste",
+										"district": "teste",
+										"complement": "",
+										"number": 1234
+									},
+									"opening": {
+										"sunday": "Fechado",
+										"monday": "09:00 - 18:00",
+										"tuesday": "09:00 - 18:00",
+										"wednesday": "09:00 - 18:00",
+										"thursday": "09:00 - 18:00",
+										"friday": "09:00 - 18:00",
+										"saturday": "09:00 - 18:00"
+									}
+								}
+							}
+						}
+					}
+				},
+				"responses": {
+					"201": {
+						"description": "Restaurante criado",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/RestaurantComplete"
+								}
+							}
+						}
+					},
+					"409": {
+						"description": "Já existe um restaurante com esse nome.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								}
+							}
+						}
+					},
+					"401": {
+						"description": "Sem permissão",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "Dados inválidos",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "Categoria não encontrada",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								}
+							}
+						}
+					}
+				}
+			},
+			"get": {
+				"description": "Rota listar todos os restaurantes.",
+				"tags": ["Restaurants"],
+				"responses": {
+					"200": {
+						"description": "Sucesso",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "array",
+									"items": {
+										"$ref": "#/components/schemas/Restaurant"
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/restaurant/{id}": {
+			"get": {
+				"description": "Rota para listar um restaurante específico.",
+				"tags": ["Restaurants"],
+				"responses": {
+					"200": {
+						"description": "Sucesso",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/RestaurantComplete"
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "Restaurante não encontrado",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								}
+							}
+						}
+					}
+				}
+			},
+			"patch": {
+				"description": "Rota atualizar um resturante específico (é necessário estar autenticado e ser dono do restaurante ou administrador).",
+				"tags": ["Restaurants"],
+				"security": [
+					{
+						"BearerAuth": []
+					}
+				],
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"type": "object",
+								"properties": {
+									"name": {
+										"type": "string"
+									},
+									"image": {
+										"type": "string"
+									},
+									"categoryId": {
+										"type": "string"
+									},
+									"address": {
+										"type": "object",
+										"properties": {
+											"zipCode": {
+												"type": "string"
+											},
+											"city": {
+												"type": "string"
+											},
+											"state": {
+												"type": "string"
+											},
+											"street": {
+												"type": "string"
+											},
+											"district": {
+												"type": "string"
+											},
+											"complement": {
+												"type": "string"
+											},
+											"number": {
+												"type": "integer"
+											}
+										}
+									},
+									"opening": {
+										"type": "object",
+										"properties": {
+											"sunday": {
+												"type": "string"
+											},
+											"monday": {
+												"type": "string"
+											},
+											"tuesday": {
+												"type": "string"
+											},
+											"wednesday": {
+												"type": "string"
+											},
+											"thursday": {
+												"type": "string"
+											},
+											"friday": {
+												"type": "string"
+											},
+											"saturday": {
+												"type": "string"
+											}
+										}
+									}
+								},
+								"example": {
+									"name": "Cold Food 2",
+									"image": "https://images.unsplash.com/photo-1637695282790-ddfb2d7c90b9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1074&q=80",
+									"categoryId": "646d58aaad73d1684dde6821",
+									"address": {
+										"zipCode": "1234546",
+										"city": "teste",
+										"state": "teste",
+										"street": "teste",
+										"district": "teste",
+										"complement": "",
+										"number": 1234
+									},
+									"opening": {
+										"sunday": "Fechado",
+										"monday": "09:00 - 18:00",
+										"tuesday": "09:00 - 18:00",
+										"wednesday": "09:00 - 18:00",
+										"thursday": "09:00 - 18:00",
+										"friday": "09:00 - 18:00",
+										"saturday": "09:00 - 18:00"
+									}
+								}
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "Restaurante atualizado",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/RestaurantComplete"
+								}
+							}
+						}
+					},
+					"409": {
+						"description": "Já existe um restaurante com esse nome.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								}
+							}
+						}
+					},
+					"401": {
+						"description": "Sem permissão",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "Dados inválidos",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "Categoria não encontrada",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "Restaurante não encontrado",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								}
+							}
+						}
+					}
+				}
+			},
+			"delete": {
+				"description": "Rota deletar um resturante específico (é necessário estar autenticado e ser dono do restaurante ou administrador).",
+				"tags": ["Restaurants"],
+				"security": [
+					{
+						"BearerAuth": []
+					}
+				],
+
+				"responses": {
+					"204": {
+						"description": "Restaurante deletado"
+					},
+					"401": {
+						"description": "Sem permissão",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "Restaurante não encontrado",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
