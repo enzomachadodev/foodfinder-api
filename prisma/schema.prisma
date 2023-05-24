@@ -13,7 +13,6 @@ model User {
   email       String       @unique
   image       String?
   password    String
-  favoriteIds String[]     @db.ObjectId
   isAdmin     Boolean      @default(false)
   restaurants Restaurant[]
   reviews     Review[]
@@ -47,7 +46,6 @@ model Address {
   city         String
   state        String
   street       String
-  district     String
   number       Int
   complement   String?
   restaurantId String     @unique @db.ObjectId
@@ -71,6 +69,8 @@ model Review {
   id           String     @id @default(auto()) @map("_id") @db.ObjectId
   description  String
   rating       Float
+ createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
   userId       String     @db.ObjectId
   user         User       @relation(fields: [userId], references: [id], onDelete: Cascade)
   restaurantId String     @db.ObjectId
