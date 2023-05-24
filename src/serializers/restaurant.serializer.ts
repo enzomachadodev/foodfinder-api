@@ -61,6 +61,7 @@ export const restaurantResponseSerializer = z.object({
 	categoryId: z.string(),
 	createdAt: z.date(),
 	updatedAt: z.date(),
+	category: categoryResponseSerializer,
 });
 
 export type RestaurantResponse = z.infer<typeof restaurantResponseSerializer>;

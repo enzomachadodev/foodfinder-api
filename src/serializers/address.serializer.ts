@@ -5,7 +5,6 @@ export const addressCreateRequestSerializer = z.object({
 	city: z.string(),
 	state: z.string(),
 	street: z.string(),
-	district: z.string(),
 	number: z.number().int(),
 	complement: z.string().optional(),
 });
@@ -28,7 +27,6 @@ export const addressResponseSerializer = z.object({
 	city: z.string(),
 	state: z.string(),
 	street: z.string(),
-	district: z.string(),
 	number: z.number().int(),
 	complement: z.string().nullable(),
 });
