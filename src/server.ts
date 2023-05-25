@@ -1,6 +1,11 @@
 import express from "express";
+import swaggerUi from "swagger-ui-express";
 import cors from "cors";
+
 import { handleError } from "./errors/handleError";
+
+import swaggerDocument from "../swagger.json";
+
 import userRoutes from "./routes/user.routes";
 import sessionRoutes from "./routes/session.routes";
 import categoryRoutes from "./routes/category.routes";
@@ -15,6 +20,7 @@ app.use("/session", sessionRoutes);
 app.use("/user", userRoutes);
 app.use("/category", categoryRoutes);
 app.use("/restaurant", restaurantRoutes);
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.use(handleError);
 

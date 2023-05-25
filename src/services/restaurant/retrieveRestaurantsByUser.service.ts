@@ -4,13 +4,12 @@ import {
 	listRestaurantsResponseSerializer,
 } from "../../serializers/restaurant.serializer";
 
-export const retrieveAllRestaurantsService = async (): Promise<RestaurantResponse[]> => {
+export const retrieveRestaurantsByUserService = async (
+	userId: string
+): Promise<RestaurantResponse[]> => {
 	const restaurants = await prisma.restaurant.findMany({
-		orderBy: {
-			createdAt: "desc",
-		},
-		include: {
-			category: true,
+		where: {
+			userId: userId,
 		},
 	});
 

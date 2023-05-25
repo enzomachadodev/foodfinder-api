@@ -14,6 +14,8 @@ import { deleteRestaurantController } from "../controllers/restaurant/deleteRest
 import { ensureIsRestaurantOwnerOrAdminMiddleware } from "../middlewares/ensureIsRestaurantOwnerOrAdmin.middleware";
 import { retrieveAllRestaurantsController } from "../controllers/restaurant/retrieveAllRestaurants.controller";
 import { retrieveUniqueRestaurantController } from "../controllers/restaurant/retrieveUniqueRestaurant.controller";
+import { ensureCategoryExists } from "../middlewares/ensureCategoryExists.middleware";
+import { retrieveRestaurantsByUserController } from "../controllers/restaurant/retrieveRestaurantsByUser.controller";
 
 const restaurantRoutes = Router();
 
@@ -22,6 +24,7 @@ restaurantRoutes.post(
 	ensureAuthMiddleware,
 	ensureDataIsValidMiddleware(restaurantCreateRequestSerializer),
 	ensureRestaurantDataNotExistsMiddleware,
+	ensureCategoryExists,
 	createRestaurantController
 );
 
@@ -37,6 +40,7 @@ restaurantRoutes.patch(
 	ensureIsRestaurantOwnerOrAdminMiddleware,
 	ensureDataIsValidMiddleware(restaurantUpdateRequestSerializer),
 	ensureRestaurantDataNotExistsMiddleware,
+	ensureCategoryExists,
 	updateRestaurantController
 );
 
@@ -47,6 +51,12 @@ restaurantRoutes.delete(
 	ensureRestaurantExists,
 	ensureIsRestaurantOwnerOrAdminMiddleware,
 	deleteRestaurantController
+);
+
+restaurantRoutes.get(
+	"/user/:id",
+	ensureValidParamsIdMiddleware,
+	retrieveRestaurantsByUserController
 );
 
 export default restaurantRoutes;

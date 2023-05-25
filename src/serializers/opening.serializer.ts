@@ -6,43 +6,57 @@ export const openingCreateRequestSerializer = z.object({
 		.regex(
 			/^([01]\d|2[0-3]):([0-5]\d) - ([01]\d|2[0-3]):([0-5]\d)$/,
 			"Formato inválido para o horário. Utilize o formato HH:mm - HH:mm."
-		),
+		)
+		.or(z.literal("24 Horas"))
+		.or(z.literal("Fechado")),
 	monday: z
 		.string()
 		.regex(
 			/^([01]\d|2[0-3]):([0-5]\d) - ([01]\d|2[0-3]):([0-5]\d)$/,
 			"Formato inválido para o horário. Utilize o formato HH:mm - HH:mm."
-		),
+		)
+		.or(z.literal("24 Horas"))
+		.or(z.literal("Fechado")),
 	tuesday: z
 		.string()
 		.regex(
 			/^([01]\d|2[0-3]):([0-5]\d) - ([01]\d|2[0-3]):([0-5]\d)$/,
 			"Formato inválido para o horário. Utilize o formato HH:mm - HH:mm."
-		),
+		)
+		.or(z.literal("24 Horas"))
+		.or(z.literal("Fechado")),
 	wednesday: z
 		.string()
 		.regex(
 			/^([01]\d|2[0-3]):([0-5]\d) - ([01]\d|2[0-3]):([0-5]\d)$/,
 			"Formato inválido para o horário. Utilize o formato HH:mm - HH:mm."
-		),
+		)
+		.or(z.literal("24 Horas"))
+		.or(z.literal("Fechado")),
 	thursday: z
 		.string()
 		.regex(
 			/^([01]\d|2[0-3]):([0-5]\d) - ([01]\d|2[0-3]):([0-5]\d)$/,
 			"Formato inválido para o horário. Utilize o formato HH:mm - HH:mm."
-		),
+		)
+		.or(z.literal("24 Horas"))
+		.or(z.literal("Fechado")),
 	friday: z
 		.string()
 		.regex(
 			/^([01]\d|2[0-3]):([0-5]\d) - ([01]\d|2[0-3]):([0-5]\d)$/,
 			"Formato inválido para o horário. Utilize o formato HH:mm - HH:mm."
-		),
+		)
+		.or(z.literal("24 Horas"))
+		.or(z.literal("Fechado")),
 	saturday: z
 		.string()
 		.regex(
 			/^([01]\d|2[0-3]):([0-5]\d) - ([01]\d|2[0-3]):([0-5]\d)$/,
 			"Formato inválido para o horário. Utilize o formato HH:mm - HH:mm."
-		),
+		)
+		.or(z.literal("24 Horas"))
+		.or(z.literal("Fechado")),
 });
 
 export const openingUpdateRequestSerializer = z

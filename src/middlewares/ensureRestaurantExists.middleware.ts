@@ -8,6 +8,9 @@ export const ensureRestaurantExists = async (req: Request, res: Response, next: 
 		where: {
 			id: req.params.id,
 		},
+		include: {
+			category: true,
+		},
 	});
 
 	if (!foundRestaurant) {
