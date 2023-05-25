@@ -564,7 +564,7 @@
 				}
 			},
 			"get": {
-				"description": "Rota listar todos os restaurantes.",
+				"description": "Rota para listar todos os restaurantes.",
 				"tags": ["Restaurants"],
 				"responses": {
 					"200": {
@@ -611,7 +611,7 @@
 				}
 			},
 			"patch": {
-				"description": "Rota atualizar um resturante específico (é necessário estar autenticado e ser dono do restaurante ou administrador).",
+				"description": "Rota para atualizar um resturante específico (é necessário estar autenticado e ser dono do restaurante ou administrador).",
 				"tags": ["Restaurants"],
 				"security": [
 					{
@@ -777,7 +777,7 @@
 				}
 			},
 			"delete": {
-				"description": "Rota deletar um resturante específico (é necessário estar autenticado e ser dono do restaurante ou administrador).",
+				"description": "Rota para deletar um resturante específico (é necessário estar autenticado e ser dono do restaurante ou administrador).",
 				"tags": ["Restaurants"],
 				"security": [
 					{
@@ -801,6 +801,37 @@
 					},
 					"404": {
 						"description": "Restaurante não encontrado",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/restaurant/user/{id}": {
+			"get": {
+				"description": "Rota para listar todos os restaurantes de um usuário específico.",
+				"tags": ["Restaurants"],
+				"responses": {
+					"200": {
+						"description": "Sucesso",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "array",
+									"items": {
+										"$ref": "#/components/schemas/Restaurant"
+									}
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "Usuário não encontrado",
 						"content": {
 							"application/json": {
 								"schema": {
