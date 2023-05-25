@@ -7,9 +7,20 @@ export const ensureRestaurantDataNotExistsMiddleware = async (
 	res: Response,
 	next: NextFunction
 ) => {
+	const restaurantId = req.params.id;
 	const { name, address } = req.body;
 
 	if (name) {
+		if (restaurantId) {
+			const foundRestaurant = await prisma.restaurant.findUnique({
+				where: {
+					id: restaurantId,
+				},
+			});
+			if (foundRestaurant?.name === name) {
+				return next();
+			}
+		}
 		const restaurantByName = await prisma.restaurant.findUnique({
 			where: {
 				name: name,
