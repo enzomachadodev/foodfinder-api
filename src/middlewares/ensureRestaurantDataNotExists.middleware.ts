@@ -33,6 +33,25 @@ export const ensureRestaurantDataNotExistsMiddleware = async (
 	}
 
 	if (address) {
+		if (restaurantId) {
+			const foundRestaurant = await prisma.restaurant.findUnique({
+				where: {
+					id: restaurantId,
+				},
+				include: {
+					address: true,
+				},
+			});
+			if (foundRestaurant?.address) {
+				const { id, restaurantId, ...rest } = foundRestaurant.address;
+				const restString = JSON.stringify(rest);
+				const addressString = JSON.stringify(address);
+
+				if (restString === addressString) {
+					return next();
+				}
+			}
+		}
 		const restaurantByAddress = await prisma.restaurant.findFirst({
 			where: {
 				address: address,
