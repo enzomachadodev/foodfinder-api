@@ -11,6 +11,9 @@ export const retrieveRestaurantsByUserService = async (
 		where: {
 			userId: userId,
 		},
+		include: {
+			category: true,
+		},
 	});
 
 	const validatedData = listRestaurantsResponseSerializer.parse(restaurants);
