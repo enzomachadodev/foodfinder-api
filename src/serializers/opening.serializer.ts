@@ -67,6 +67,8 @@ export const openingUpdateRequestSerializer = z
 				/^([01]\d|2[0-3]):([0-5]\d) - ([01]\d|2[0-3]):([0-5]\d)$/,
 				"Formato inválido para o horário. Utilize o formato HH:mm - HH:mm."
 			)
+			.or(z.literal("24 Horas"))
+			.or(z.literal("Fechado"))
 			.optional(),
 		monday: z
 			.string()
@@ -74,6 +76,8 @@ export const openingUpdateRequestSerializer = z
 				/^([01]\d|2[0-3]):([0-5]\d) - ([01]\d|2[0-3]):([0-5]\d)$/,
 				"Formato inválido para o horário. Utilize o formato HH:mm - HH:mm."
 			)
+			.or(z.literal("24 Horas"))
+			.or(z.literal("Fechado"))
 			.optional(),
 		tuesday: z
 			.string()
@@ -81,6 +85,8 @@ export const openingUpdateRequestSerializer = z
 				/^([01]\d|2[0-3]):([0-5]\d) - ([01]\d|2[0-3]):([0-5]\d)$/,
 				"Formato inválido para o horário. Utilize o formato HH:mm - HH:mm."
 			)
+			.or(z.literal("24 Horas"))
+			.or(z.literal("Fechado"))
 			.optional(),
 		wednesday: z
 			.string()
@@ -88,6 +94,8 @@ export const openingUpdateRequestSerializer = z
 				/^([01]\d|2[0-3]):([0-5]\d) - ([01]\d|2[0-3]):([0-5]\d)$/,
 				"Formato inválido para o horário. Utilize o formato HH:mm - HH:mm."
 			)
+			.or(z.literal("24 Horas"))
+			.or(z.literal("Fechado"))
 			.optional(),
 		thursday: z
 			.string()
@@ -95,6 +103,8 @@ export const openingUpdateRequestSerializer = z
 				/^([01]\d|2[0-3]):([0-5]\d) - ([01]\d|2[0-3]):([0-5]\d)$/,
 				"Formato inválido para o horário. Utilize o formato HH:mm - HH:mm."
 			)
+			.or(z.literal("24 Horas"))
+			.or(z.literal("Fechado"))
 			.optional(),
 		friday: z
 			.string()
@@ -102,6 +112,8 @@ export const openingUpdateRequestSerializer = z
 				/^([01]\d|2[0-3]):([0-5]\d) - ([01]\d|2[0-3]):([0-5]\d)$/,
 				"Formato inválido para o horário. Utilize o formato HH:mm - HH:mm."
 			)
+			.or(z.literal("24 Horas"))
+			.or(z.literal("Fechado"))
 			.optional(),
 		saturday: z
 			.string()
@@ -109,6 +121,8 @@ export const openingUpdateRequestSerializer = z
 				/^([01]\d|2[0-3]):([0-5]\d) - ([01]\d|2[0-3]):([0-5]\d)$/,
 				"Formato inválido para o horário. Utilize o formato HH:mm - HH:mm."
 			)
+			.or(z.literal("24 Horas"))
+			.or(z.literal("Fechado"))
 			.optional(),
 	})
 	.optional();
